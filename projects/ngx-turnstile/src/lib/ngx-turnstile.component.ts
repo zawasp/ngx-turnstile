@@ -8,9 +8,10 @@ import {
   EventEmitter,
   OnDestroy,
   Inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import { TurnstileOptions } from './interfaces/turnstile-options';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 declare global {
   interface Window {
@@ -52,7 +53,8 @@ export class NgxTurnstileComponent implements AfterViewInit, OnDestroy {
   constructor(
     private elementRef: ElementRef<HTMLElement>,
     private zone: NgZone,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   private _getCloudflareTurnstileUrl(): string {
@@ -64,48 +66,50 @@ export class NgxTurnstileComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    let turnstileOptions: TurnstileOptions = {
-      sitekey: this.siteKey,
-      theme: this.theme,
-      tabindex: this.tabIndex,
-      action: this.action,
-      cData: this.cData,
-      callback: (token: string) => {
-        this.zone.run(() => this.resolved.emit(token));
-      },
-      'expired-callback': () => {
-        this.zone.run(() => this.reset());
-      },
-    };
+    if (isPlatformBrowser(this.platformId)) {
+      let turnstileOptions: TurnstileOptions = {
+        sitekey: this.siteKey,
+        theme: this.theme,
+        tabindex: this.tabIndex,
+        action: this.action,
+        cData: this.cData,
+        callback: (token: string) => {
+          this.zone.run(() => this.resolved.emit(token));
+        },
+        'expired-callback': () => {
+          this.zone.run(() => this.reset());
+        },
+      };
 
-    const script = document.createElement('script');
+      const script = this.document.createElement('script');
 
-    window[CALLBACK_NAME] = () => {
-      if (!this.elementRef?.nativeElement) {
-        return;
-      }
+      window[CALLBACK_NAME] = () => {
+        if (!this.elementRef?.nativeElement) {
+          return;
+        }
 
-      this.widgetId = window.turnstile.render(
-        this.elementRef.nativeElement,
-        turnstileOptions
-      );
-    };
+        this.widgetId = window.turnstile.render(
+          this.elementRef.nativeElement,
+          turnstileOptions
+        );
+      };
 
-    script.src = `${this._getCloudflareTurnstileUrl()}?render=explicit&onload=${CALLBACK_NAME}`;
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
+      script.src = `${this._getCloudflareTurnstileUrl()}?render=explicit&onload=${CALLBACK_NAME}`;
+      script.async = true;
+      script.defer = true;
+      this.document.head.appendChild(script);
+    }
   }
 
   reset() {
-    if (this.widgetId) {
+    if (isPlatformBrowser(this.platformId) && this.widgetId) {
       this.resolved.emit(null);
       window.turnstile.reset(this.widgetId);
     }
   }
 
   public ngOnDestroy(): void {
-    if (this.widgetId) {
+    if (isPlatformBrowser(this.platformId) && this.widgetId) {
       window.turnstile.remove(this.widgetId);
     }
   }

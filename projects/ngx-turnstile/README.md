@@ -1,5 +1,8 @@
 # Cloudflare Turnstile Component for Angular
 
+## Fork of [verto-health/ngx-turnstile](https://github.com/verto-health/ngx-turnstile)
+I forked it to make it work with (Analog)[https://github.com/analogjs/analog] SSR.
+
 ## ngx-turnstile
 
 An easy to use component for implementing [Cloudflare Turnstile](https://blog.cloudflare.com/turnstile-private-captcha-alternative/) in Angular.
