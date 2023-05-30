@@ -1,6 +1,6 @@
 {
   "name": "@zawasp/ngx-turnstile",
-  "version": "16.0.3-beta.1",
+  "version": "16.0.3-beta.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

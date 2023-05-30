@@ -7,8 +7,10 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  Inject,
 } from '@angular/core';
 import { TurnstileOptions } from './interfaces/turnstile-options';
+import { DOCUMENT } from '@angular/common';
 
 declare global {
   interface Window {
@@ -49,7 +51,8 @@ export class NgxTurnstileComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private elementRef: ElementRef<HTMLElement>,
-    private zone: NgZone
+    private zone: NgZone,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   private _getCloudflareTurnstileUrl(): string {
