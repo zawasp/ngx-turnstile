@@ -1,7 +1,7 @@
 # Cloudflare Turnstile Component for Angular
 
 ## Fork of [verto-health/ngx-turnstile](https://github.com/verto-health/ngx-turnstile)
-I forked it to make it work with (Analog)[https://github.com/analogjs/analog] SSR.
+I forked it to make it work with [Analog](https://github.com/analogjs/analog) SSR.
 
 ## ngx-turnstile
 
