@@ -67,7 +67,9 @@
               "projects/ngx-turnstile-demo/src/favicon.ico",
               "projects/ngx-turnstile-demo/src/assets"
             ],
-            "styles": ["projects/ngx-turnstile-demo/src/styles.scss"],
+            "styles": [
+              "projects/ngx-turnstile-demo/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -133,7 +135,9 @@
               "projects/ngx-turnstile-demo/src/favicon.ico",
               "projects/ngx-turnstile-demo/src/assets"
             ],
-            "styles": ["projects/ngx-turnstile-demo/src/styles.scss"],
+            "styles": [
+              "projects/ngx-turnstile-demo/src/styles.scss"
+            ],
             "scripts": []
           }
         },
@@ -151,6 +155,16 @@
   },
   "cli": {
     "analytics": "aeaa4c58-751b-4733-93b4-e1611f8d018a",
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }
